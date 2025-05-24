@@ -91,25 +91,34 @@
       DeepSaffron: "#FF9932",
       NocturnalExpedition: "#114C5A",
       OceanicNoir: "#172B36",
+      ScarletRed: "#FF2D55",
+      DeepGreen: "#008000",
+      LightGreen: "#90EE90",
     };
 
     const canvas = document.getElementById("pongCanvas");
     const ctx = canvas.getContext("2d");
     const scoreElement = document.getElementById("score");
 
-    const DAY_COLOR = colorPalette.MysticMint;
-    const DAY_BALL_COLOR = colorPalette.NocturnalExpedition;
-    const NIGHT_COLOR = colorPalette.NocturnalExpedition;
-    const NIGHT_BALL_COLOR = colorPalette.MysticMint;
-    const SQUARE_SIZE = 25;
-    const MIN_SPEED = 5;
-    const MAX_SPEED = 10;
+    const PINK_COLOR = colorPalette.MysticMint;
+    const PINK_BALL_COLOR = colorPalette.NocturnalExpedition;
+    const BLUE_COLOR = colorPalette.NocturnalExpedition;
+    const BLUE_BALL_COLOR = colorPalette.MysticMint;
+    const GREEN_COLOR = colorPalette.LightGreen;
+    const GREEN_BALL_COLOR = colorPalette.DeepGreen;
+    const YELLOW_COLOR = colorPalette.DeepSaffron;
+    const YELLOW_BALL_COLOR = colorPalette.Forsythia;
+    const SQUARE_SIZE = 12;
+    const MIN_SPEED = 4;
+    const MAX_SPEED = 8;
 
     const numSquaresX = canvas.width / SQUARE_SIZE;
     const numSquaresY = canvas.height / SQUARE_SIZE;
 
-    let dayScore = 0;
-    let nightScore = 0;
+    let pinkScore = 0;
+    let blueScore = 0;
+    let greenScore = 0;
+    let yellowScore = 0;
 
     const squares = [];
 
@@ -117,7 +126,7 @@
     for (let i = 0; i < numSquaresX; i++) {
       squares[i] = [];
       for (let j = 0; j < numSquaresY; j++) {
-        squares[i][j] = i < numSquaresX / 2 ? DAY_COLOR : NIGHT_COLOR;
+        squares[i][j] = i < numSquaresX / 2 ? PINK_COLOR : BLUE_COLOR;
       }
     }
 
@@ -127,16 +136,32 @@
         y: canvas.height / 2,
         dx: 8,
         dy: -8,
-        reverseColor: DAY_COLOR,
-        ballColor: DAY_BALL_COLOR,
+        reverseColor: PINK_COLOR,
+        ballColor: PINK_BALL_COLOR,
       },
       {
         x: (canvas.width / 4) * 3,
         y: canvas.height / 2,
         dx: -8,
         dy: 8,
-        reverseColor: NIGHT_COLOR,
-        ballColor: NIGHT_BALL_COLOR,
+        reverseColor: BLUE_COLOR,
+        ballColor: BLUE_BALL_COLOR,
+      },
+      {
+        x: canvas.width / 2,
+        y: canvas.height / 4,
+        dx: 8,
+        dy: -8,
+        reverseColor: GREEN_COLOR,
+        ballColor: GREEN_BALL_COLOR,
+      },
+      {
+        x: (canvas.width / 3)*2,
+        y: (canvas.height / 4)*3,
+        dx: 8,
+        dy: -8,
+        reverseColor: YELLOW_COLOR,
+        ballColor: YELLOW_BALL_COLOR,
       },
     ];
 
@@ -151,8 +176,10 @@
     }
 
     function drawSquares() {
-      dayScore = 0;
-      nightScore = 0;
+      pinkScore = 0;
+      blueScore = 0;
+      greenScore = 0;
+      yellowScore = 0;
 
       for (let i = 0; i < numSquaresX; i++) {
         for (let j = 0; j < numSquaresY; j++) {
@@ -160,8 +187,10 @@
           ctx.fillRect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
 
           // Update scores
-          if (squares[i][j] === DAY_COLOR) dayScore++;
-          if (squares[i][j] === NIGHT_COLOR) nightScore++;
+          if (squares[i][j] === PINK_COLOR) pinkScore++;
+          if (squares[i][j] === BLUE_COLOR) blueScore++;
+          if (squares[i][j] === GREEN_COLOR) greenScore++;
+          if (squares[i][j] === YELLOW_COLOR) yellowScore++;
         }
       }
     }
@@ -217,7 +246,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawSquares();
 
-      scoreElement.textContent = `day ${dayScore} | night ${nightScore}`;
+      scoreElement.textContent = `pink ${pinkScore} | blue ${blueScore} | green ${greenScore} | yellow ${yellowScore}`;
 
       balls.forEach((ball) => {
         drawBall(ball);
